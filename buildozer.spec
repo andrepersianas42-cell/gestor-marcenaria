@@ -5,9 +5,9 @@ package.domain = org.andresystem
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,json
 version = 1.0.1
-requirements = python3,kivy==2.3.1,matplotlib,numpy,pillow
+requirements = python3,kivy,matplotlib,numpy,pillow
 android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
-orientation = portrait
+orientation = all
 fullscreen = 0
 icon.filename = icon.png
 android.archs = arm64-v8a, armeabi-v7a
