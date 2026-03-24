@@ -1,8 +1,12 @@
 name: Build Android APK
+
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -55,8 +59,37 @@ jobs:
           ANDROID_HOME: ${{ env.ANDROID_HOME }}
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
 
-      - name: Upload APK
+      - name: Upload APK as artifact (backup)
         uses: actions/upload-artifact@v4
         with:
           name: GestorMarcenaria-APK
           path: bin/*.apk
+          retention-days: 90
+
+      - name: Get version from buildozer.spec
+        id: get_version
+        run: |
+          VERSION=$(grep '^version' buildozer.spec | head -1 | awk -F= '{print $2}' | tr -d ' ')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION-build-$(date +'%Y%m%d-%H%M')" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.tag }}
+          name: "Gestor Marcenaria ${{ steps.get_version.outputs.tag }}"
+          body: |
+            ## 📱 Gestor Marcenaria — APK para Android
+
+            ### Como instalar no celular/tablet:
+            1. **Baixe o arquivo `.apk`** clicando em `Assets` abaixo
+            2. No celular, vá em **Configurações → Segurança → Fontes desconhecidas** e ative
+            3. Abra o arquivo baixado e toque em **Instalar**
+            4. Pronto! O app estará disponível no seu dispositivo ✅
+
+            > ⚠️ Este é um build de **desenvolvimento (debug)**. Para uso pessoal e interno.
+          files: bin/*.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
