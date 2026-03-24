@@ -45,8 +45,19 @@ jobs:
 
       - name: Install Android NDK and Build Tools
         run: |
-          sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2" "ndk;25.2.9519653"
+          sdkmanager --install "platform-tools" "platforms;android-33" "build-tools;33.0.2" "ndk;25.2.9519653"
           echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> $GITHUB_ENV
+
+      - name: Link Android SDK to Buildozer expected path
+        run: |
+          # Buildozer procura o SDK em ~/.buildozer/android/platform/android-sdk
+          # Então criamos um symlink do caminho real para onde ele espera
+          BUILDOZER_PLATFORM=/home/runner/.buildozer/android/platform
+          mkdir -p $BUILDOZER_PLATFORM
+          ln -sf $ANDROID_SDK_ROOT $BUILDOZER_PLATFORM/android-sdk
+          echo "SDK linkado: $ANDROID_SDK_ROOT -> $BUILDOZER_PLATFORM/android-sdk"
+          echo "Build-tools disponíveis:"
+          ls $ANDROID_SDK_ROOT/build-tools/ || echo "Nenhum build-tools encontrado"
 
       - name: Install Python dependencies
         run: |
@@ -58,7 +69,10 @@ jobs:
           buildozer android debug
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+          ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
+          ANDROIDNDK: ${{ env.ANDROID_NDK_HOME }}
+          ANDROIDSDK: ${{ env.ANDROID_SDK_ROOT }}
 
       - name: Upload APK as artifact (backup)
         uses: actions/upload-artifact@v4.6.2
