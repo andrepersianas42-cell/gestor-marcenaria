@@ -17,12 +17,14 @@ from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.utils import platform
 
-# Gráficos (Matplotlib é opcional para evitar erros se não estiver instalado)
-try:
-    import matplotlib.pyplot as plt
-    MATPLOTLIB_AVAILABLE = True
-except ImportError:
-    MATPLOTLIB_AVAILABLE = False
+# Gráficos (Matplotlib é opcional e NÃO está disponível no Android)
+MATPLOTLIB_AVAILABLE = False
+if platform != 'android':
+    try:
+        import matplotlib.pyplot as plt
+        MATPLOTLIB_AVAILABLE = True
+    except ImportError:
+        MATPLOTLIB_AVAILABLE = False
 
 if platform != 'android':
     Window.size = (450, 800)
@@ -31,9 +33,20 @@ def get_data_path():
     if platform == 'android':
         try:
             from android.storage import app_storage_path
-            return os.path.join(app_storage_path(), 'dados_gerais.json')
-        except ImportError:
-            return 'dados_gerais.json'
+            storage = app_storage_path()
+            os.makedirs(storage, exist_ok=True)
+            return os.path.join(storage, 'dados_gerais.json')
+        except Exception:
+            try:
+                # Fallback: usar diretório interno do app
+                from jnius import autoclass
+                PythonActivity = autoclass('org.kivy.android.PythonActivity')
+                context = PythonActivity.mActivity
+                files_dir = context.getFilesDir().getAbsolutePath()
+                os.makedirs(files_dir, exist_ok=True)
+                return os.path.join(files_dir, 'dados_gerais.json')
+            except Exception:
+                return '/data/data/org.andresystem.gestormarcenaria/files/dados_gerais.json'
     return 'dados_gerais.json'
 
 DADOS_FILE = get_data_path()
@@ -156,7 +169,8 @@ KV = '''
             size_hint: (None, None)
             size: (60, 60)
             pos_hint: {'center_y': 0.5}
-            fit_mode: 'contain'
+            allow_stretch: True
+            keep_ratio: True
         
         Label:
             text: 'GESTOR MARCENARIA'
@@ -446,7 +460,8 @@ KV = '''
                 Image:
                     id: graf_imagem
                     source: ''
-                    fit_mode: 'contain'
+                    allow_stretch: True
+                    keep_ratio: True
 '''
 
 class MainTabs(TabbedPanel):
