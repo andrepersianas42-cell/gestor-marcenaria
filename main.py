@@ -16,6 +16,12 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.utils import platform
+from kivy.factory import Factory
+from kivy.uix.spinner import Spinner
+from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
+from kivy.uix.widget import Widget
 
 # Gráficos (Matplotlib é opcional e NÃO está disponível no Android)
 MATPLOTLIB_AVAILABLE = False
@@ -189,7 +195,7 @@ KV = '''
     do_default_tab: False
     
     TabbedPanelItem:
-        text: '🛠️ Marc.'
+        text: 'Marc.'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -279,7 +285,7 @@ KV = '''
                     Label: text: 'Func. 20%'; bold: True; height: 35; size_hint_y: None
 
     TabbedPanelItem:
-        text: '👤 Lucas'
+        text: 'Lucas'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -321,7 +327,7 @@ KV = '''
                     Label: text: 'Valor'; bold: True; height: 35; size_hint_y: None
 
     TabbedPanelItem:
-        text: '🏠 Casa'
+        text: 'Casa'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -369,7 +375,7 @@ KV = '''
                     Label: text: 'Valor'; bold: True; height: 35; size_hint_y: None
                         
     TabbedPanelItem:
-        text: '📄 Bol.'
+        text: 'Bol.'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -412,7 +418,7 @@ KV = '''
                     Label: text: 'Vencimento'; bold: True; height: 35; size_hint_y: None
 
     TabbedPanelItem:
-        text: '📊 Res.'
+        text: 'Res.'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -429,7 +435,7 @@ KV = '''
                     spacing: 15
 
     TabbedPanelItem:
-        text: '📈 Gráf.'
+        text: 'Gráf.'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -469,6 +475,10 @@ class MainTabs(TabbedPanel):
 
 class RootLayout(BoxLayout):
     pass
+
+Factory.register('AutoCompleteTextInput', cls=AutoCompleteTextInput)
+Factory.register('MainTabs', cls=MainTabs)
+Factory.register('RootLayout', cls=RootLayout)
 
 class GerenciadorApp(App):
     sugestoes_marcenaria = ListProperty(['MDF', 'Parafusos', 'Fita de Borda', 'Cola', 'Corrediça', 'Puxador', 'Dobradiça'])
