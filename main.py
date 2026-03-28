@@ -12,7 +12,6 @@ from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.properties import ListProperty
-from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.utils import platform
@@ -22,6 +21,8 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.uix.widget import Widget
+from kivy.uix.tabbedpanel import TabbedPanelItem
+from kivy.graphics import Line
 
 # Gráficos (Matplotlib é opcional e NÃO está disponível no Android)
 MATPLOTLIB_AVAILABLE = False
@@ -33,6 +34,7 @@ if platform != 'android':
         MATPLOTLIB_AVAILABLE = False
 
 if platform != 'android':
+    from kivy.core.window import Window
     Window.size = (450, 800)
 
 def get_data_path():
