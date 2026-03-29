@@ -1,5 +1,28 @@
-import json
+import sys
+import traceback
 import os
+
+def android_crash_handler(exctype, value, tb):
+    err = ''.join(traceback.format_exception(exctype, value, tb))
+    try:
+        from jnius import autoclass
+        context = autoclass('org.kivy.android.PythonActivity').mActivity
+        if context:
+            ext_dir = context.getExternalFilesDir(None).getAbsolutePath()
+            with open(os.path.join(ext_dir, 'kivy_crash_log.txt'), 'w') as f:
+                f.write(err)
+    except:
+        pass
+    try:
+        with open('/storage/emulated/0/Download/kivy_crash_log.txt', 'w') as f:
+            f.write(err)
+    except:
+        pass
+    sys.__excepthook__(exctype, value, tb)
+
+sys.excepthook = android_crash_handler
+
+import json
 from datetime import datetime
 from collections import defaultdict
 
