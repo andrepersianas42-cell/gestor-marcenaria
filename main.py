@@ -60,28 +60,6 @@ if platform != 'android':
     from kivy.core.window import Window
     Window.size = (450, 800)
 
-def get_data_path():
-    if platform == 'android':
-        try:
-            from android.storage import app_storage_path
-            storage = app_storage_path()
-            os.makedirs(storage, exist_ok=True)
-            return os.path.join(storage, 'dados_gerais.json')
-        except Exception:
-            try:
-                # Fallback: usar diretório interno do app
-                from jnius import autoclass
-                PythonActivity = autoclass('org.kivy.android.PythonActivity')
-                context = PythonActivity.mActivity
-                files_dir = context.getFilesDir().getAbsolutePath()
-                os.makedirs(files_dir, exist_ok=True)
-                return os.path.join(files_dir, 'dados_gerais.json')
-            except Exception:
-                return '/data/data/org.andresystem.gestormarcenaria/files/dados_gerais.json'
-    return 'dados_gerais.json'
-
-DADOS_FILE = get_data_path()
-
 class AutoCompleteTextInput(TextInput):
     suggestions = ListProperty([])
     
@@ -193,7 +171,8 @@ KV = '''
             Color:
                 rgba: (1, 1, 1, 0.1)
             Rectangle:
-                pos: (self.x, self.y, self.width, 2)
+                pos: self.pos
+                size: (self.width, 2)
         
         Image:
             source: 'icon.png'
@@ -218,8 +197,10 @@ KV = '''
 
 <MainTabs>:
     do_default_tab: False
+    default_tab: tab_marc
     
     TabbedPanelItem:
+        id: tab_marc
         text: 'Marc.'
         BoxLayout:
             orientation: 'vertical'
@@ -304,10 +285,26 @@ KV = '''
                     spacing: 5
                     padding: 5
                     
-                    Label: text: 'Item'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Custo/Venda'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Lucro'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Func. 20%'; bold: True; height: 35; size_hint_y: None
+                    Label:
+                        text: 'Item'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Custo/Venda'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Lucro'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Func. 20%'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
 
     TabbedPanelItem:
         text: 'Lucas'
@@ -348,8 +345,16 @@ KV = '''
                     spacing: 10
                     padding: 10
                     
-                    Label: text: 'Projeto'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Valor'; bold: True; height: 35; size_hint_y: None
+                    Label:
+                        text: 'Projeto'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Valor'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
 
     TabbedPanelItem:
         text: 'Casa'
@@ -358,7 +363,11 @@ KV = '''
             padding: 15
             spacing: 12
             
-            Label: text: 'Despesas Residenciais'; bold: True; height: 35; size_hint_y: None
+            Label:
+                text: 'Despesas Residenciais'
+                bold: True
+                height: 35
+                size_hint_y: None
 
             BoxLayout:
                 size_hint_y: None
@@ -394,10 +403,26 @@ KV = '''
                     height: self.minimum_height
                     spacing: 5
                     
-                    Label: text: 'Data'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Tipo'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Categ.'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Valor'; bold: True; height: 35; size_hint_y: None
+                    Label:
+                        text: 'Data'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Tipo'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Categ.'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Valor'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
                         
     TabbedPanelItem:
         text: 'Bol.'
@@ -406,7 +431,11 @@ KV = '''
             padding: 15
             spacing: 12
             
-            Label: text: 'Vencimentos'; bold: True; height: 35; size_hint_y: None
+            Label:
+                text: 'Vencimentos'
+                bold: True
+                height: 35
+                size_hint_y: None
             
             TextInput:
                 id: bol_desc
@@ -418,7 +447,9 @@ KV = '''
                 size_hint_y: None
                 height: 45
                 spacing: 8
-                TextInput: id: bol_valor; hint_text: 'Valor'
+                TextInput:
+                    id: bol_valor
+                    hint_text: 'Valor'
                 TextInput: 
                     id: bol_data
                     hint_text: 'DD/MM/AAAA'
@@ -438,9 +469,21 @@ KV = '''
                     height: self.minimum_height
                     spacing: 5
                     
-                    Label: text: 'Descrição'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Valor'; bold: True; height: 35; size_hint_y: None
-                    Label: text: 'Vencimento'; bold: True; height: 35; size_hint_y: None
+                    Label:
+                        text: 'Descrição'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Valor'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
+                    Label:
+                        text: 'Vencimento'
+                        bold: True
+                        height: 35
+                        size_hint_y: None
 
     TabbedPanelItem:
         text: 'Res.'
@@ -449,7 +492,12 @@ KV = '''
             padding: 15
             spacing: 12
             
-            Label: text: 'Balanço Mensal'; bold: True; font_size: '18sp'; height: 40; size_hint_y: None
+            Label:
+                text: 'Balanço Mensal'
+                bold: True
+                font_size: '18sp'
+                height: 40
+                size_hint_y: None
                 
             ScrollView:
                 GridLayout:
@@ -524,10 +572,14 @@ class GerenciadorApp(App):
         Clock.schedule_once(self.populate_grids, 0.5)
         return self.root_widget
         
+    @property
+    def dados_file(self):
+        return os.path.join(self.user_data_dir, 'dados_gerais.json')
+
     def load_dados(self):
-        if os.path.exists(DADOS_FILE):
+        if os.path.exists(self.dados_file):
             try:
-                with open(DADOS_FILE, 'r', encoding='utf-8') as f:
+                with open(self.dados_file, 'r', encoding='utf-8') as f:
                     salvo = json.load(f)
                     self.dados.update(salvo)
                     self.sugestoes_marcenaria = self.dados.get("sugestoes_marcenaria", self.sugestoes_marcenaria)
@@ -539,7 +591,7 @@ class GerenciadorApp(App):
         self.dados['sugestoes_marcenaria'] = list(set(self.sugestoes_marcenaria))
         self.dados['sugestoes_casa'] = list(set(self.sugestoes_casa))
         try:
-            with open(DADOS_FILE, 'w', encoding='utf-8') as f:
+            with open(self.dados_file, 'w', encoding='utf-8') as f:
                 json.dump(self.dados, f, ensure_ascii=False, indent=2)
             Clock.schedule_once(lambda dt: self.gerar_graficos('mes_atual'), 0.5)
         except Exception as e:
@@ -680,7 +732,10 @@ class GerenciadorApp(App):
         for mes in sorted_m:
             d = resumo[mes]; box = BoxLayout(orientation='vertical', size_hint_y=None, height=220, padding=12, spacing=2)
             with box.canvas.before:
-                Color(rgba=(1, 1, 1, 1)); RoundedRectangle(pos=box.pos, size=box.size, radius=[15,])
+                Color(rgba=(1, 1, 1, 1))
+                bg_rect = RoundedRectangle(pos=box.pos, size=box.size, radius=[15,])
+            box.bind(pos=lambda obj, val, r=bg_rect: setattr(r, 'pos', val),
+                     size=lambda obj, val, r=bg_rect: setattr(r, 'size', val))
             box.add_widget(Label(text=f"MÊS: {mes}", bold=True, height=30, size_hint_y=None))
             box.add_widget(Label(text=f"Faturamento: {format_moeda(d['venda'])}", height=22, size_hint_y=None))
             box.add_widget(Label(text=f"Lucro Bruto: {format_moeda(d['lucro'])}", color=(0.1, 0.5, 0.1, 1), height=22, size_hint_y=None))
@@ -692,7 +747,7 @@ class GerenciadorApp(App):
 
     def gerar_graficos(self, tipo):
         if not MATPLOTLIB_AVAILABLE: return
-        img_path = os.path.join(os.path.dirname(DADOS_FILE), 'grafico_temp.png')
+        img_path = os.path.join(self.user_data_dir, 'grafico_temp.png')
         bege = '#F9FAFB'; azul = '#1E1B4B'
         plt.clf(); plt.rcParams['figure.facecolor'] = bege; plt.rcParams['axes.facecolor'] = bege
         mes_atual = datetime.now().strftime("%m/%Y")

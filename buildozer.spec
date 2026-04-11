@@ -5,12 +5,12 @@ package.domain = org.andresystem
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,json
 version = 1.0.2
-requirements = python3,kivy,pillow,android,pyjnius
-android.permissions = INTERNET
+requirements = python3,kivy==2.3.0,pillow,pyjnius
+android.permissions = INTERNET, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE
 orientation = portrait
 fullscreen = 0
 icon.filename = icon.png
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = arm64-v8a,armeabi-v7a
 android.allow_backup = True
 android.api = 33
 android.minapi = 21
