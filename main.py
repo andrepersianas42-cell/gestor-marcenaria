@@ -101,13 +101,19 @@ def format_moeda(valor):
 KV = '''
 <Label>:
     color: (0.1, 0.1, 0.2, 1)
-    font_size: '15sp'
+    font_size: '14sp'
+    text_size: self.size
+    shorten: True
+    shorten_from: 'right'
+    halign: 'center'
+    valign: 'middle'
 
 <TextInput>:
     background_normal: ''
-    background_color: (1, 1, 1, 1)
+    background_color: (0.85, 0.78, 0.69, 1)
+    font_size: '18sp'
     cursor_color: (0.1, 0.14, 0.49, 1)
-    padding: [12, 12]
+    padding: [15, 15]
     color: (0.1, 0.1, 0.2, 1)
     canvas.before:
         Color:
@@ -201,7 +207,7 @@ KV = '''
     
     TabbedPanelItem:
         id: tab_marc
-        text: 'Marc.'
+        text: 'Marcenaria'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -213,25 +219,27 @@ KV = '''
                 height: 30
                 bold: True
                 
+            AutoCompleteTextInput:
+                id: marc_estoque_desc
+                hint_text: 'Descrição (Ex: MDF, Fita)'
+                suggestions: app.sugestoes_marcenaria
+                size_hint_y: None
+                height: 55
+                
             BoxLayout:
                 size_hint_y: None
-                height: 45
+                height: 55
                 spacing: 8
-                
-                AutoCompleteTextInput:
-                    id: marc_estoque_desc
-                    hint_text: 'Descrição (Ex: MDF)'
-                    suggestions: app.sugestoes_marcenaria
                     
                 TextInput:
                     id: marc_estoque_valor
                     hint_text: 'Valor'
-                    size_hint_x: 0.3
+                    size_hint_x: 0.6
                     multiline: False
                     
                 Button:
-                    text: 'ADD'
-                    size_hint_x: 0.25
+                    text: 'ADD ESTOQUE'
+                    size_hint_x: 0.4
                     on_release: app.add_estoque()
 
             Widget:
@@ -255,11 +263,11 @@ KV = '''
                 hint_text: 'Nome do Projeto / Cliente'
                 suggestions: app.sugestoes_marcenaria
                 size_hint_y: None
-                height: 45
+                height: 55
                 
             BoxLayout:
                 size_hint_y: None
-                height: 45
+                height: 55
                 spacing: 8
                 TextInput:
                     id: marc_custo
@@ -371,7 +379,7 @@ KV = '''
 
             BoxLayout:
                 size_hint_y: None
-                height: 45
+                height: 55
                 spacing: 8
                 Spinner:
                     id: casa_tipo
@@ -385,7 +393,7 @@ KV = '''
                 
             BoxLayout:
                 size_hint_y: None
-                height: 45
+                height: 55
                 spacing: 8
                 TextInput:
                     id: casa_valor
@@ -425,7 +433,7 @@ KV = '''
                         size_hint_y: None
                         
     TabbedPanelItem:
-        text: 'Bol.'
+        text: 'Boletos'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -441,11 +449,11 @@ KV = '''
                 id: bol_desc
                 hint_text: 'Descrição do Boleto'
                 size_hint_y: None
-                height: 45
+                height: 55
 
             BoxLayout:
                 size_hint_y: None
-                height: 45
+                height: 55
                 spacing: 8
                 TextInput:
                     id: bol_valor
@@ -486,7 +494,7 @@ KV = '''
                         size_hint_y: None
 
     TabbedPanelItem:
-        text: 'Res.'
+        text: 'Resumo'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -508,7 +516,7 @@ KV = '''
                     spacing: 15
 
     TabbedPanelItem:
-        text: 'Gráf.'
+        text: 'Gráficos'
         BoxLayout:
             orientation: 'vertical'
             padding: 15
@@ -638,13 +646,13 @@ class GerenciadorApp(App):
         
     def add_row_marcenaria(self, item):
         grid = self.main_tabs.ids.marc_grid
-        grid.add_widget(Label(text=item['nome'], size_hint_y=None, height=45))
+        grid.add_widget(Label(text=item['nome'], size_hint_y=None, height=55))
         if item.get('venda', 0.0) == 0.0:
-            grid.add_widget(Label(text=f"C: {format_moeda(item['custo'])}", size_hint_y=None, height=45))
+            grid.add_widget(Label(text=f"C: {format_moeda(item['custo'])}", size_hint_y=None, height=55))
         else:
-            grid.add_widget(Label(text=f"{format_moeda(item['custo'])}/{format_moeda(item['venda'])}", size_hint_y=None, height=45, font_size='12sp'))
-        grid.add_widget(Label(text=format_moeda(item['lucro']), size_hint_y=None, height=45))
-        grid.add_widget(Label(text=format_moeda(item.get('func', 0.0)), color=(0, 0.6, 0.2, 1), bold=True, size_hint_y=None, height=45))
+            grid.add_widget(Label(text=f"{format_moeda(item['custo'])}/{format_moeda(item['venda'])}", size_hint_y=None, height=55, font_size='12sp'))
+        grid.add_widget(Label(text=format_moeda(item['lucro']), size_hint_y=None, height=55))
+        grid.add_widget(Label(text=format_moeda(item.get('func', 0.0)), color=(0, 0.6, 0.2, 1), bold=True, size_hint_y=None, height=55))
 
     def refresh_lucas(self):
         grid = self.main_tabs.ids.lucas_grid
