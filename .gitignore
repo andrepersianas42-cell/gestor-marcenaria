@@ -7,3 +7,5 @@ __pycache__/
 *.apk
 dados_gerais.json
 grafico_temp.png
+*.log
+test_kv.py

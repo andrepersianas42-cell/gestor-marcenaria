@@ -21,4 +21,4 @@ ios.ios_deploy_branch = 1.10.0
 
 [buildozer]
 log_level = 2
-warn_on_root = 1
+warn_on_root = 0
