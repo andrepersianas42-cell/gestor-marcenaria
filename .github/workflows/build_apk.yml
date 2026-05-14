@@ -31,14 +31,21 @@ jobs:
         key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
 
     - name: Build with Buildozer
+      id: buildozer
       run: |
-        # Aceita licenças e compila. 
-        # O buildozer 1.5.0 aceita --accept-sdk-license se configurado no spec, 
-        # mas mantemos o yes para garantir compatibilidade total.
         yes | buildozer android debug
+      continue-on-error: true
 
     - name: Upload APK artifacts
+      if: steps.buildozer.outcome == 'success'
       uses: actions/upload-artifact@v4
       with:
         name: package
         path: bin/*.apk
+
+    - name: Upload Buildozer logs on failure
+      if: steps.buildozer.outcome == 'failure'
+      uses: actions/upload-artifact@v4
+      with:
+        name: buildozer-logs
+        path: .buildozer/android/app/build.log
