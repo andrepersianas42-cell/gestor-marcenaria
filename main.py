@@ -214,88 +214,88 @@ KV = '''
 
 <MainTabs>:
     do_default_tab: False
-    default_tab: tab_marc
-    
-    TabbedPanelItem:
+    default_tab: tab_ma    TabbedPanelItem:
         id: tab_marc
         text: 'Marcenaria'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
-            Label:
-                text: 'Despesas de Marcenaria (Estoque)'
-                size_hint_y: None
-                height: 30
-                bold: True
-                
-            AutoCompleteTextInput:
-                id: marc_estoque_desc
-                hint_text: 'Descrição (Ex: MDF, Fita)'
-                suggestions: app.sugestoes_marcenaria
-                size_hint_y: None
-                height: 55
-                
+        ScrollView:
             BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
-                height: 55
-                spacing: 8
+                height: self.minimum_height
+                
+                Label:
+                    text: 'Despesas de Marcenaria (Estoque)'
+                    size_hint_y: None
+                    height: 30
+                    bold: True
                     
-                TextInput:
-                    id: marc_estoque_valor
-                    hint_text: 'Valor'
-                    size_hint_x: 0.6
-                    multiline: False
+                AutoCompleteTextInput:
+                    id: marc_estoque_desc
+                    hint_text: 'Descrição (Ex: MDF, Fita)'
+                    suggestions: app.sugestoes_marcenaria
+                    size_hint_y: None
+                    height: 55
+                    
+                BoxLayout:
+                    size_hint_y: None
+                    height: 55
+                    spacing: 8
+                        
+                    TextInput:
+                        id: marc_estoque_valor
+                        hint_text: 'Valor'
+                        size_hint_x: 0.6
+                        multiline: False
+                        
+                    Button:
+                        text: 'ADD ESTOQUE'
+                        size_hint_x: 0.4
+                        on_release: app.add_estoque()
+
+                Widget:
+                    size_hint_y: None
+                    height: 2
+                    canvas:
+                        Color:
+                            rgba: (0.1, 0.1, 0.2, 0.2)
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                Label:
+                    text: 'Novo Trabalho / Projeto'
+                    size_hint_y: None
+                    height: 30
+                    bold: True
+                    
+                AutoCompleteTextInput:
+                    id: marc_nome
+                    hint_text: 'Nome do Projeto / Cliente'
+                    suggestions: app.sugestoes_marcenaria
+                    size_hint_y: None
+                    height: 55
+                    
+                BoxLayout:
+                    size_hint_y: None
+                    height: 55
+                    spacing: 8
+                    TextInput:
+                        id: marc_custo
+                        hint_text: 'Custo Mat.'
+                        multiline: False
+                    TextInput:
+                        id: marc_venda
+                        hint_text: 'Valor Venda'
+                        multiline: False
                     
                 Button:
-                    text: 'ADD ESTOQUE'
-                    size_hint_x: 0.4
-                    on_release: app.add_estoque()
-
-            Widget:
-                size_hint_y: None
-                height: 1
-                canvas:
-                    Color:
-                        rgba: (0.1, 0.1, 0.2, 0.1)
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-
-            Label:
-                text: 'Novo Trabalho / Projeto'
-                size_hint_y: None
-                height: 30
-                bold: True
-                
-            AutoCompleteTextInput:
-                id: marc_nome
-                hint_text: 'Nome do Projeto / Cliente'
-                suggestions: app.sugestoes_marcenaria
-                size_hint_y: None
-                height: 55
-                
-            BoxLayout:
-                size_hint_y: None
-                height: 55
-                spacing: 8
-                TextInput:
-                    id: marc_custo
-                    hint_text: 'Custo Mat.'
-                    multiline: False
-                TextInput:
-                    id: marc_venda
-                    hint_text: 'Valor Venda'
-                    multiline: False
-                
-            Button:
-                text: 'SALVAR E CALCULAR'
-                size_hint_y: None
-                height: 50
-                on_release: app.add_marcenaria()
-                
-            ScrollView:
+                    text: 'SALVAR E CALCULAR'
+                    size_hint_y: None
+                    height: 50
+                    on_release: app.add_marcenaria()
+                    
                 GridLayout:
                     id: marc_grid
                     cols: 4
@@ -327,44 +327,46 @@ KV = '''
 
     TabbedPanelItem:
         text: 'Calculadora'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
-            Label:
-                text: 'Calculadora de Precificação (Persikall)'
-                size_hint_y: None
-                height: 30
-                bold: True
-                
-            AutoCompleteTextInput:
-                id: calc_nome
-                hint_text: 'Nome do Projeto / Cliente'
-                suggestions: app.sugestoes_marcenaria
-                size_hint_y: None
-                height: 55
-                
+        ScrollView:
             BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
-                height: 55
-                spacing: 8
-                TextInput:
-                    id: calc_custo
-                    hint_text: 'Custo Mat.'
-                    multiline: False
-                TextInput:
-                    id: calc_dias
-                    hint_text: 'Dias Trab.'
-                    multiline: False
+                height: self.minimum_height
                 
-            Button:
-                text: 'CALCULAR E SALVAR'
-                size_hint_y: None
-                height: 50
-                on_release: app.add_calculadora()
-                
-            ScrollView:
+                Label:
+                    text: 'Calculadora de Precificação (Persikall)'
+                    size_hint_y: None
+                    height: 30
+                    bold: True
+                    
+                AutoCompleteTextInput:
+                    id: calc_nome
+                    hint_text: 'Nome do Projeto / Cliente'
+                    suggestions: app.sugestoes_marcenaria
+                    size_hint_y: None
+                    height: 55
+                    
+                BoxLayout:
+                    size_hint_y: None
+                    height: 55
+                    spacing: 8
+                    TextInput:
+                        id: calc_custo
+                        hint_text: 'Custo Mat.'
+                        multiline: False
+                    TextInput:
+                        id: calc_dias
+                        hint_text: 'Dias Trab.'
+                        multiline: False
+                    
+                Button:
+                    text: 'CALCULAR E SALVAR'
+                    size_hint_y: None
+                    height: 50
+                    on_release: app.add_calculadora()
+                    
                 GridLayout:
                     id: calc_grid
                     cols: 5
@@ -401,38 +403,40 @@ KV = '''
 
     TabbedPanelItem:
         text: 'Lucas'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
-            Label:
-                text: 'Resumo de Comissões - Lucas'
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
-                height: 40
-                bold: True
-                font_size: '18sp'
+                height: self.minimum_height
                 
-            Label:
-                id: lucas_total
-                text: 'Total: R$ 0,00'
-                size_hint_y: None
-                height: 70
-                bold: True
-                font_size: '18sp'
-                color: (0.1, 0.5, 0.2, 1)
-                halign: 'center'
-                valign: 'middle'
-                text_size: self.size
-                canvas.before:
-                    Color:
-                        rgba: (1, 1, 1, 1)
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [12,]
-            
-            ScrollView:
+                Label:
+                    text: 'Resumo de Comissões - Lucas'
+                    size_hint_y: None
+                    height: 40
+                    bold: True
+                    font_size: '18sp'
+                    
+                Label:
+                    id: lucas_total
+                    text: 'Total: R$ 0,00'
+                    size_hint_y: None
+                    height: 70
+                    bold: True
+                    font_size: '18sp'
+                    color: (0.1, 0.5, 0.2, 1)
+                    halign: 'center'
+                    valign: 'middle'
+                    text_size: self.size
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [12,]
+                
                 GridLayout:
                     id: lucas_grid
                     cols: 3
@@ -459,46 +463,48 @@ KV = '''
 
     TabbedPanelItem:
         text: 'Casa'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
-            Label:
-                text: 'Despesas Residenciais'
-                bold: True
-                height: 35
-                size_hint_y: None
-
-            Spinner:
-                id: casa_tipo
-                text: 'Variável'
-                values: ['Fixa', 'Variável']
-                size_hint_y: None
-                height: 55
-                
-            AutoCompleteTextInput:
-                id: casa_categoria
-                hint_text: 'Descrição da Despesa'
-                suggestions: app.sugestoes_casa
-                size_hint_y: None
-                height: 55
-                
+        ScrollView:
             BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
-                height: 55
-                spacing: 8
-                TextInput:
-                    id: casa_valor
-                    hint_text: 'Valor'
-                    size_hint_x: 0.6
-                    multiline: False
-                Button:
-                    text: 'SALVAR'
-                    size_hint_x: 0.4
-                    on_release: app.add_casa()
+                height: self.minimum_height
                 
-            ScrollView:
+                Label:
+                    text: 'Despesas Residenciais'
+                    bold: True
+                    height: 35
+                    size_hint_y: None
+
+                Spinner:
+                    id: casa_tipo
+                    text: 'Variável'
+                    values: ['Fixa', 'Variável']
+                    size_hint_y: None
+                    height: 55
+                    
+                AutoCompleteTextInput:
+                    id: casa_categoria
+                    hint_text: 'Descrição da Despesa'
+                    suggestions: app.sugestoes_casa
+                    size_hint_y: None
+                    height: 55
+                    
+                BoxLayout:
+                    size_hint_y: None
+                    height: 55
+                    spacing: 8
+                    TextInput:
+                        id: casa_valor
+                        hint_text: 'Valor'
+                        size_hint_x: 0.6
+                        multiline: False
+                    Button:
+                        text: 'SALVAR'
+                        size_hint_x: 0.4
+                        on_release: app.add_casa()
+                    
                 GridLayout:
                     id: casa_grid
                     cols: 4
@@ -526,45 +532,47 @@ KV = '''
                         bold: True
                         height: 35
                         size_hint_y: None
-                        
+                            
     TabbedPanelItem:
         text: 'Boletos'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
-            Label:
-                text: 'Vencimentos'
-                bold: True
-                height: 35
-                size_hint_y: None
-            
-            TextInput:
-                id: bol_desc
-                hint_text: 'Descrição do Boleto'
-                size_hint_y: None
-                height: 55
-
+        ScrollView:
             BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
-                height: 55
-                spacing: 8
-                TextInput:
-                    id: bol_valor
-                    hint_text: 'Valor'
-                TextInput: 
-                    id: bol_data
-                    hint_text: 'DD/MM/AAAA'
-                    on_text: app.validate_date_input(self)
-
-            Button:
-                text: 'ADICIONAR LEMBRETE'
-                size_hint_y: None
-                height: 50
-                on_release: app.add_boleto()
+                height: self.minimum_height
                 
-            ScrollView:
+                Label:
+                    text: 'Vencimentos'
+                    bold: True
+                    height: 35
+                    size_hint_y: None
+                
+                TextInput:
+                    id: bol_desc
+                    hint_text: 'Descrição do Boleto'
+                    size_hint_y: None
+                    height: 55
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 55
+                    spacing: 8
+                    TextInput:
+                        id: bol_valor
+                        hint_text: 'Valor'
+                    TextInput: 
+                        id: bol_data
+                        hint_text: 'DD/MM/AAAA'
+                        on_text: app.validate_date_input(self)
+
+                Button:
+                    text: 'ADICIONAR LEMBRETE'
+                    size_hint_y: None
+                    height: 50
+                    on_release: app.add_boleto()
+                    
                 GridLayout:
                     id: bol_grid
                     cols: 3
@@ -590,19 +598,21 @@ KV = '''
 
     TabbedPanelItem:
         text: 'Resumo'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
-            Label:
-                text: 'Balanço Mensal'
-                bold: True
-                font_size: '18sp'
-                height: 40
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
+                height: self.minimum_height
                 
-            ScrollView:
+                Label:
+                    text: 'Balanço Mensal'
+                    bold: True
+                    font_size: '18sp'
+                    height: 40
+                    size_hint_y: None
+                    
                 GridLayout:
                     id: resumo_grid
                     cols: 1
@@ -612,38 +622,44 @@ KV = '''
 
     TabbedPanelItem:
         text: 'Gráficos'
-        BoxLayout:
-            orientation: 'vertical'
-            padding: 15
-            spacing: 12
-            
+        ScrollView:
             BoxLayout:
+                orientation: 'vertical'
+                padding: 15
+                spacing: 12
                 size_hint_y: None
-                height: 50
-                spacing: 8
-                Button:
-                    text: 'Mês'
-                    on_release: app.gerar_graficos('mes_atual')
-                Button:
-                    text: 'Ev.'
-                    on_release: app.gerar_graficos('evolucao')
-                Button:
-                    text: 'Comp.'
-                    on_release: app.gerar_graficos('comparativo')
+                height: self.minimum_height
+                
+                BoxLayout:
+                    size_hint_y: None
+                    height: 50
+                    spacing: 8
+                    Button:
+                        text: 'Mês'
+                        on_release: app.gerar_graficos('mes_atual')
+                    Button:
+                        text: 'Ev.'
+                        on_release: app.gerar_graficos('evolucao')
+                    Button:
+                        text: 'Comp.'
+                        on_release: app.gerar_graficos('comparativo')
 
-            BoxLayout:
-                canvas.before:
-                    Color:
-                        rgba: (1, 1, 1, 1)
-                    RoundedRectangle:
-                        pos: self.pos
-                        size: self.size
-                        radius: [12,]
-                Image:
-                    id: graf_imagem
-                    source: ''
-                    allow_stretch: True
-                    keep_ratio: True
+                BoxLayout:
+                    size_hint_y: None
+                    height: 400
+                    canvas.before:
+                        Color:
+                            rgba: (1, 1, 1, 1)
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [12,]
+                    Image:
+                        id: graf_imagem
+                        source: ''
+                        allow_stretch: True
+                        keep_ratio: True
+       keep_ratio: True
 '''
 
 class MainTabs(TabbedPanel):
