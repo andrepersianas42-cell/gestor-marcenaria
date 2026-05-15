@@ -5,6 +5,9 @@ on:
     branches: [ "main", "master" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,8 +43,19 @@ jobs:
       if: steps.buildozer.outcome == 'success'
       uses: actions/upload-artifact@v4
       with:
-        name: package
+        name: GestorMarcenaria-APK
         path: bin/*.apk
+
+    - name: Publish APK as GitHub Release
+      if: steps.buildozer.outcome == 'success'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: apk-build-${{ github.run_number }}
+        name: "Gestor Marcenaria - Build ${{ github.run_number }}"
+        body: "APK gerado automaticamente. Clique no arquivo .apk abaixo para baixar."
+        files: bin/*.apk
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Buildozer logs on failure
       if: steps.buildozer.outcome == 'failure'
