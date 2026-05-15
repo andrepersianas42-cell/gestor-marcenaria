@@ -214,7 +214,9 @@ KV = '''
 
 <MainTabs>:
     do_default_tab: False
-    default_tab: tab_ma    TabbedPanelItem:
+    default_tab: tab_marc
+    
+    TabbedPanelItem:
         id: tab_marc
         text: 'Marcenaria'
         ScrollView:
